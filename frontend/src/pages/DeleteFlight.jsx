@@ -26,7 +26,7 @@ const DeleteFlight = ({ flight }) => {
 
   return (
     <>
-      <div style={{ margin: 45 }}>
+      <div style={{ margin: 45 }} onSubmit={handleDelete}>
         <Paper elevation={24}>
           <Center>
             <form className="myForm" onSubmit={handleDelete}>

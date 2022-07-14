@@ -8,6 +8,7 @@ import * as yup from "yup";
 import { TextField, Paper, Box, Button } from "@mui/material";
 import { FormBox } from "../components/inputForms/FormBox";
 import { useLocation } from "react-router-dom";
+import "./custom.css";
 
 const schema = yup.object().shape({
   flightNum: yup
@@ -146,6 +147,7 @@ export const UpdateFlight = () => {
               <TextField
                 sx={{ width: 350, paddingBottom: 3 }}
                 id="date"
+                format="MM/dd/yyyy"
                 label="Departure Date"
                 defaultValue={
                   flightData.flight?.departureDate === undefined
