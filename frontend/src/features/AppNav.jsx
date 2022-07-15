@@ -39,5 +39,3 @@ export const AppNav = () => {
     </Nav>
   );
 };
-
-// 2:15:00

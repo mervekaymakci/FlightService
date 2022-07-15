@@ -6,61 +6,64 @@ import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { TextField, Paper, Box, Button } from "@mui/material";
-import { FormBox } from "../components/inputForms/FormBox";
+import { Form } from "../components/inputForms/Form";
 import { useLocation } from "react-router-dom";
 import "./custom.css";
+import InputAdornment from "@mui/material/InputAdornment";
+import FlightIcon from "@mui/icons-material/Flight";
+import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
+import FlightLandIcon from "@mui/icons-material/FlightLand";
+import PersonIcon from "@mui/icons-material/Person";
+import GroupIcon from "@mui/icons-material/Group";
 
 const schema = yup.object().shape({
   flightNum: yup
     .number()
-    .typeError("Please enter a valid Flight Number.")
-    .min(1, "The Flight Number must be greater than 0")
-    .max(999999, "Flight Numbers can only be between 0 and 1,000,000")
+    .typeError("Please type a valid flight number.")
+    .min(1, "The flight number must be greater than 0")
+    .max(9999, "Flight number can be possible between 0 and 1,0000")
     .required(),
-  depDate: yup.date().typeError("Please select a Departure Date.").required(),
+  depDate: yup.date().typeError("Please select a departure date.").required(),
   arrDate: yup
     .date()
-    .typeError("Please enter an Arrival Date.")
-    .min(yup.ref("depDate"), "Arrival date must be after Departure date")
+    .typeError("Please enter an arrival date.")
+    .min(yup.ref("depDate"), "The arrival date must be after departure date")
     .required(),
-  depTime: yup.string().required("Please enter a valid Departure Time."),
-  arrTime: yup.string().required("Please enter a valid Arrival Time."),
+  depTime: yup.string().required("Please type a valid departure time."),
+  arrTime: yup.string().required("Please type a valid arrival time."),
   depAirport: yup
     .string()
-    .matches(/^[a-zA-Z]{0,3}$/, "Airport Code must be three letters")
-    .required("Please enter a valid Departure Airport."),
+    .matches(/^[a-zA-Z]{0,3}$/, "The airport code must be three letters")
+    .required("Please enter a valid departure airport."),
   arrAirport: yup
     .string()
-    .matches(/^[a-zA-Z]{0,3}$/, "Airport Code must be three letters")
-    .required("Please enter a valid Arrival Airport."),
+    .matches(/^[a-zA-Z]{0,3}$/, "The airport Code must be three letters")
+    .required("Please enter a valid arrival airport."),
   numPass: yup
     .number()
-    .typeError("Please enter a valid Number of Passengers.")
-    .min(0, "The Number of passengers must be a positive number")
-    .max(400, "The number of passengers cannot exceed 400")
+    .typeError("Please type a valid number of passengers.")
+    .min(0, "The number of passengers must be a positive number")
+    .max(1000, "The number of passengers cannot exceed 1000")
     .required(),
   passLimit: yup
     .number()
-    .typeError("Please enter a valid Passenger Limit")
-    .min(1, "The Passenger limit must be greater than 0")
-    .max(400, "The Passenger Limit cannot exceed 400")
+    .typeError("Please type a valid Passenger Limit")
+    .min(1, "The passenger limit must be greater than 0")
+    .max(1000, "The passenger limit cannot be more than 1000")
     .moreThan(
       yup.ref("numPass"),
-      "Number of passengers must be less than the limit"
+      "Number of passengers can not be exceed the limit"
     )
     .required(),
 });
 
 export const UpdateFlight = () => {
-  // use to navigate back to homepage on submit
   const navigate = useNavigate();
 
   const location = useLocation();
 
-  //unpack the flight data that was passed when the edit flight button was clicked and navigates user to another page
   const flightData = { ...location.state };
 
-  // Create the hook for react-hook-form
   const {
     register,
     handleSubmit,
@@ -79,7 +82,6 @@ export const UpdateFlight = () => {
   const numPassengersRef = useRef();
   const passengerLimitRef = useRef();
 
-  // create ref but without using already assigned ref .
   const flightNumberReg = register("flightNum");
   const depDateReg = register("depDate");
   const arrDateReg = register("arrDate");
@@ -90,7 +92,6 @@ export const UpdateFlight = () => {
   const numPassReg = register("numPass");
   const passLimitReg = register("passLimit");
 
-  // Function to update the flight in the DB, based on the user entry in the form
   const useSubmit = async () => {
     try {
       await axios.put("http://localhost:8085/flights", {
@@ -105,7 +106,7 @@ export const UpdateFlight = () => {
         passengerLimit: passengerLimitRef.current.value,
       });
 
-      navigate("../", { replace: true }); //navigate the user back to the homePage onSubmit
+      navigate("../", { replace: true });
     } catch (err) {
       console.log("Something went wrong");
       console.error(err);
@@ -139,6 +140,19 @@ export const UpdateFlight = () => {
                 inputRef={(e) => {
                   flightNumberReg.ref(e);
                   flightNumberRef.current = e;
+                }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment
+                      position="end"
+                      sx={{
+                        color: "#FF7F50",
+                        width: "3rem",
+                      }}
+                    >
+                      <FlightIcon />
+                    </InputAdornment>
+                  ),
                 }}
               ></TextField>
             </div>
@@ -262,6 +276,19 @@ export const UpdateFlight = () => {
                   depAirportReg.ref(e);
                   departureAirportRef.current = e;
                 }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment
+                      position="end"
+                      sx={{
+                        color: "#FF7F50",
+                        width: "3rem",
+                      }}
+                    >
+                      <FlightTakeoffIcon />
+                    </InputAdornment>
+                  ),
+                }}
               ></TextField>
             </div>
 
@@ -284,6 +311,19 @@ export const UpdateFlight = () => {
                 inputRef={(e) => {
                   arrAirportReg.ref(e);
                   arrivalAirportRef.current = e;
+                }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment
+                      position="end"
+                      sx={{
+                        color: "#FF7F50",
+                        width: "3rem",
+                      }}
+                    >
+                      <FlightLandIcon />
+                    </InputAdornment>
+                  ),
                 }}
               ></TextField>
             </div>
@@ -308,6 +348,19 @@ export const UpdateFlight = () => {
                   numPassReg.ref(e);
                   numPassengersRef.current = e;
                 }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment
+                      position="end"
+                      sx={{
+                        color: "#FF7F50",
+                        width: "3rem",
+                      }}
+                    >
+                      <PersonIcon />
+                    </InputAdornment>
+                  ),
+                }}
               ></TextField>
             </div>
 
@@ -330,6 +383,19 @@ export const UpdateFlight = () => {
                 inputRef={(e) => {
                   passLimitReg.ref(e);
                   passengerLimitRef.current = e;
+                }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment
+                      position="end"
+                      sx={{
+                        color: "#FF7F50",
+                        width: "3rem",
+                      }}
+                    >
+                      <GroupIcon />
+                    </InputAdornment>
+                  ),
                 }}
               ></TextField>
             </div>

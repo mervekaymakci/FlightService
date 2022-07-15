@@ -1,2 +1,1 @@
-export * from './Center';
-export * from './LogoContainer';
+export * from "./Center";

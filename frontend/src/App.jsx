@@ -6,10 +6,6 @@ import background from "./images/background.png";
 const App = () => {
   return (
     <div styles={{ backgroundImage: `url(${background})` }}>
-      {" "}
-      {/*background image*/}.
-      {/* Everything inside of here is going to be managed by react-router-dom
-        to allow the site to toggle between pages */}
       <BrowserRouter>
         <AppNav />
         <Routes>
@@ -23,5 +19,4 @@ const App = () => {
     </div>
   );
 };
-
 export default App;

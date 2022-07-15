@@ -1,3 +1,10 @@
-::-webkit-calendar-picker-indicator {
-  filter: sepia(100%) saturate(100%) hue-rotate(199.09);
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(55%) sepia(80%) saturate(502%) hue-rotate(325deg)
+    brightness(101%) contrast(101%);
+  margin-right: 15px;
+}
+input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(55%) sepia(80%) saturate(502%) hue-rotate(325deg)
+    brightness(101%) contrast(101%);
+  margin-right: 15px;
 }

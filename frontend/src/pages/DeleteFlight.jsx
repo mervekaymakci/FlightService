@@ -11,9 +11,7 @@ const DeleteFlight = ({ flight }) => {
   const flightNumberRef = useRef();
   const navigate = useNavigate();
 
-  const handleDelete = async (event) => {
-    event.preventDefault();
-
+  const handleDelete = async () => {
     try {
       await axios.delete(
         "http://localhost:8085/flights/" + flight.flightNumber
@@ -25,44 +23,42 @@ const DeleteFlight = ({ flight }) => {
   };
 
   return (
-    <>
-      <div style={{ margin: 45 }} onSubmit={handleDelete}>
-        <Paper elevation={24}>
-          <Center>
-            <form className="myForm" onSubmit={handleDelete}>
-              <Center>
-                <h1 style={{ color: "#FFAC42" }}>Delete Flight</h1>
-              </Center>
-              <div>
-                <TextField
-                  type={"text"}
-                  inputRef={flightNumberRef}
-                  sx={{ width: 350, paddingBottom: 3 }}
-                  placeholder={" Flight Number"}
-                ></TextField>
-              </div>
-              <Center>
-                <Button
-                  type="submit"
-                  variant="contained"
-                  style={{
-                    backgroundColor: "#FFAC42",
-                    height: 50,
-                    width: 150,
-                    color: "white",
-                    borderColor: "#ff7f50",
-                    marginBottom: 50,
-                  }}
-                  onClick={handleDelete}
-                >
-                  Delete Flight
-                </Button>
-              </Center>
-            </form>
-          </Center>
-        </Paper>
-      </div>
-    </>
+    <div style={{ margin: 45 }}>
+      <Paper elevation={24}>
+        <Center>
+          <form className="myForm" onSubmit={handleDelete}>
+            <Center>
+              <h1 style={{ color: "#FFAC42" }}>Delete Flight</h1>
+            </Center>
+            <div>
+              <TextField
+                type={"text"}
+                ref={flightNumberRef}
+                sx={{ width: 350, paddingBottom: 3 }}
+                placeholder={" Flight Number"}
+              ></TextField>
+            </div>
+            <Center>
+              <Button
+                type="submit"
+                variant="contained"
+                style={{
+                  backgroundColor: "#FFAC42",
+                  height: 50,
+                  width: 150,
+                  color: "white",
+                  borderColor: "#ff7f50",
+                  marginBottom: 50,
+                }}
+                onClick={handleDelete}
+              >
+                Delete Flight
+              </Button>
+            </Center>
+          </form>
+        </Center>
+      </Paper>
+    </div>
   );
 };
 
